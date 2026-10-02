@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Notifications - BuyNest</title>
+
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f6fa;
+            color: #222;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff4d6d;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #ff4d6d;
+        }
+
+        .notification-link {
+            position: relative;
+            font-size: 22px !important;
+        }
+
+        .nav-badge {
+            position: absolute;
+            top: -9px;
+            right: -12px;
+            background: red;
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* ================= MAIN ================= */
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+        }
+
+        .clear-btn {
+            border: none;
+            background: #ff4d6d;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .clear-btn:hover {
+            background: #e6395c;
+        }
+
+        /* ================= CONNECTION ================= */
+
+        .connection {
+            background: #fff;
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .online {
+            color: #16a34a;
+        }
+
+        .offline {
+            color: #dc2626;
+        }
+
+        /* ================= NOTIFICATION ================= */
+
+        .notification-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .notification {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+            border-left: 4px solid #ff4d6d;
+            transition: 0.2s;
+        }
+
+        .notification:hover {
+            transform: translateY(-2px);
+        }
+
+        .notification-icon {
+            width: 45px;
+            height: 45px;
+            background: #ffe5eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .notification-message {
+            color: #555;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .notification-time {
+            color: #999;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .delete-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 18px;
+            color: #999;
+        }
+
+        .delete-btn:hover {
+            color: red;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            background: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .empty h2 {
+            margin-bottom: 8px;
+        }
+
+        .empty p {
+            color: #777;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 700px) {
+
+            .navbar {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .nav-links a:nth-child(2),
+            .nav-links a:nth-child(3),
+            .nav-links a:nth-child(4) {
+                display: none;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .notification {
+                padding: 14px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            BuyNest
+        </a>
+
+        <div class="nav-links">
+
+            <a href="products.html">
+                Products
+            </a>
+
+            <a href="wishlist.html">
+                ❤️ Wishlist
+            </a>
+
+            <a href="cart.html">
+                🛒 Cart
+            </a>
+
+            <a href="orders.html">
+                📦 Orders
+            </a>
+
+            <a href="notification.html"
+               class="notification-link">
+
+                🔔
+
+                <span
+                    id="navBadge"
+                    class="nav-badge"
+                    style="display:none;">
+                    0
+                </span>
+
+            </a>
+
+            <a href="profile.html">
+                👤 Profile
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="container">
+
+        <div class="header">
+
+            <h1>
+                🔔 Notifications
+            </h1>
+
+            <button
+                class="clear-btn"
+                onclick="clearNotifications()">
+
+                Clear All
+
+            </button>
+
+        </div>
+
+
+        <!-- Connection Status -->
+
+        <div
+            id="connectionStatus"
+            class="connection offline">
+
+            🔴 Connecting to BuyNest...
+
+        </div>
+
+
+        <!-- Notification List -->
+
+        <div
+            id="notificationList"
+            class="notification-list">
+        </div>
+
+    </main>
+
+
+    <script>
+
+        // =====================================
+        // STORAGE KEY
+        // =====================================
+
+        const STORAGE_KEY = "buynestNotifications";
+
+
+        // =====================================
+        // GET USER
+        // =====================================
+
+        function getUser() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem("buynestUser")
+                );
+
+            } catch (error) {
+
+                return null;
+
+            }
+
+        }
+
+
+        // =====================================
+        // GET NOTIFICATIONS
+        // =====================================
+
+        function getNotifications() {
+
+            try {
+
+                return JSON.parse(
+                    localStorage.getItem(STORAGE_KEY)
+                ) || [];
+
+            } catch (error) {
+
+                return [];
+
+            }
+
+        }
+
+
+        // =====================================
+        // SAVE NOTIFICATIONS
+        // =====================================
+
+        function saveNotifications(notifications) {
+
+            localStorage.setItem(
+                STORAGE_KEY,
+                JSON.stringify(notifications)
+            );
+
+        }
+
+
+        // =====================================
+        // TIME FORMAT
+        // =====================================
+
+        function formatTime(dateString) {
+
+            const date = new Date(dateString);
+
+            const now = new Date();
+
+            const difference =
+                Math.floor(
+                    (now - date) / 1000
+                );
+
+            if (difference < 10) {
+                return "Just now";
+            }
+
+            if (difference < 60) {
+                return difference + " seconds ago";
+            }
+
+            const minutes =
+                Math.floor(difference / 60);
+
+            if (minutes < 60) {
+                return minutes +
+                    (minutes === 1
+                        ? " minute ago"
+                        : " minutes ago");
+            }
+
+            const hours =
+                Math.floor(minutes / 60);
+
+            if (hours < 24) {
+                return hours +
+                    (hours === 1
+                        ? " hour ago"
+                        : " hours ago");
+            }
+
+            const days =
+                Math.floor(hours / 24);
+
+            if (days < 7) {
+                return days +
+                    (days === 1
+                        ? " day ago"
+                        : " days ago");
+            }
+
+            return date.toLocaleString();
+
+        }
+
+
+        // =====================================
+        // ICON
+        // =====================================
+
+        function getNotificationIcon(notification) {
+
+            if (notification.type === "order") {
+                return "🎉";
+            }
+
+            if (notification.status === "Shipped") {
+                return "🚚";
+            }
+
+            if (notification.status === "Delivered") {
+                return "✅";
+            }
+
+            if (notification.status === "Cancelled") {
+                return "❌";
+            }
+
+            if (notification.status === "Processing") {
+                return "📦";
+            }
+
+            return "🔔";
+
+        }
+
+
+        // =====================================
+        // RENDER NOTIFICATIONS
+        // =====================================
+
+        function renderNotifications() {
+
+            const list =
+                document.getElementById(
+                    "notificationList"
+                );
+
+            const notifications =
+                getNotifications();
+
+
+            // Empty
+            if (notifications.length === 0) {
+
+                list.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            🔔
+                        </div>
+
+                        <h2>
+                            No Notifications
+                        </h2>
+
+                        <p>
+                            Your order updates will appear here.
+                        </p>
+
+                    </div>
+
+                `;
+
+                updateBadge();
+
+                return;
+
+            }
+
+
+            list.innerHTML =
+                notifications.map(
+                    (notification, index) => {
+
+                        return `
+
+                            <div class="notification">
+
+                                <div class="notification-icon">
+
+                                    ${getNotificationIcon(notification)}
+
+                                </div>
+
+
+                                <div class="notification-content">
+
+                                    <div class="notification-title">
+
+                                        ${escapeHTML(
+                                            notification.title ||
+                                            "Notification"
+                                        )}
+
+                                    </div>
+
+
+                                    <div class="notification-message">
+
+                                        ${escapeHTML(
+                                            notification.message ||
+                                            ""
+                                        )}
+
+                                    </div>
+
+
+                                    ${
+                                        notification.orderId
+                                        ? `
+                                            <div
+                                                class="notification-time">
+
+                                                Order ID:
+                                                ${escapeHTML(
+                                                    notification.orderId
+                                                )}
+
+                                            </div>
+                                          `
+                                        : ""
+                                    }
+
+
+                                    <div
+                                        class="notification-time">
+
+                                        ${formatTime(
+                                            notification.time
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <button
+                                    class="delete-btn"
+                                    onclick="deleteNotification(${index})">
+
+                                    ✕
+
+                                </button>
+
+                            </div>
+
+                        `;
+
+                    }
+                ).join("");
+
+
+            updateBadge();
+
+        }
+
+
+        // =====================================
+        // ESCAPE HTML
+        // =====================================
+
+        function escapeHTML(value) {
+
+            const div =
+                document.createElement("div");
+
+            div.textContent = value;
+
+            return div.innerHTML;
+
+        }
+
+
+        // =====================================
+        // DELETE ONE
+        // =====================================
+
+        function deleteNotification(index) {
+
+            const notifications =
+                getNotifications();
+
+            notifications.splice(index, 1);
+
+            saveNotifications(notifications);
+
+            renderNotifications();
+
+        }
+
+
+        // =====================================
+        // CLEAR ALL
+        // =====================================
+
+        function clearNotifications() {
+
+            localStorage.removeItem(
+                STORAGE_KEY
+            );
+
+            renderNotifications();
+
+        }
+
+
+        // =====================================
+        // BADGE
+        // =====================================
+
+        function updateBadge() {
+
+            const badge =
+                document.getElementById(
+                    "navBadge"
+                );
+
+            const count =
+                getNotifications().length;
+
+
+            if (count > 0) {
+
+                badge.style.display = "flex";
+
+                badge.textContent =
+                    count > 99 ? "99+" : count;
+
+            } else {
+
+                badge.style.display = "none";
+
+            }
+
+        }
+
+
+        // =====================================
+        // ADD NOTIFICATION
+        // =====================================
+
+        function addNotification(notification) {
+
+            const notifications =
+                getNotifications();
+
+
+            // Add newest notification first
+            notifications.unshift(notification);
+
+
+            // Keep only latest 50
+            if (notifications.length > 50) {
+
+                notifications.splice(50);
+
+            }
+
+
+            saveNotifications(notifications);
+
+            renderNotifications();
+
+
+            // Browser notification
+            showBrowserNotification(
+                notification
+            );
+
+        }
+
+
+        // =====================================
+        // BROWSER NOTIFICATION
+        // =====================================
+
+        function showBrowserNotification(notification) {
+
+            if (
+                "Notification" in window &&
+                Notification.permission === "granted"
+            ) {
+
+                new Notification(
+                    notification.title ||
+                    "BuyNest",
+                    {
+                        body:
+                            notification.message ||
+                            "You have a new notification."
+                    }
+                );
+
+            }
+
+        }
+
+
+        // =====================================
+        // REQUEST NOTIFICATION PERMISSION
+        // =====================================
+
+        function requestNotificationPermission() {
+
+            if (
+                "Notification" in window &&
+                Notification.permission === "default"
+            ) {
+
+                Notification.requestPermission();
+
+            }
+
+        }
+
+
+        // =====================================
+        // SOCKET.IO
+        // =====================================
+
+        const socket = io();
+
+
+        // =====================================
+        // CONNECTED
+        // =====================================
+
+        socket.on("connect", () => {
+
+            console.log(
+                "🔌 Connected to BuyNest Socket.IO"
+            );
+
+
+            const status =
+                document.getElementById(
+                    "connectionStatus"
+                );
+
+
+            status.className =
+                "connection online";
+
+
+            status.innerHTML =
+                "🟢 Real-time notifications connected";
+
+
+            // Get logged-in user
+            const user = getUser();
+
+
+            if (
+                user &&
+                user.email
+            ) {
+
+                socket.emit(
+                    "joinUser",
+                    user.email
+                );
+
+                console.log(
+                    "👤 Joined:",
+                    user.email
+                );
+
+            } else {
+
+                console.log(
+                    "⚠️ No logged-in user found"
+                );
+
+            }
+
+        });
+
+
+        // =====================================
+        // DISCONNECTED
+        // =====================================
+
+        socket.on("disconnect", () => {
+
+            const status =
+                document.getElementById(
+                    "connectionStatus"
+                );
+
+
+            status.className =
+                "connection offline";
+
+
+            status.innerHTML =
+                "🔴 Real-time connection disconnected";
+
+        });
+
+
+        // =====================================
+        // NEW REAL-TIME NOTIFICATION
+        // =====================================
+
+        socket.on(
+            "newNotification",
+            (notification) => {
+
+                console.log(
+                    "🔔 New notification:",
+                    notification
+                );
+
+
+                addNotification(
+                    notification
+                );
+
+            }
+        );
+
+
+        // =====================================
+        // INITIAL LOAD
+        // =====================================
+
+        renderNotifications();
+
+        requestNotificationPermission();
+
+    </script>
+
+</body>
+
+</html>
