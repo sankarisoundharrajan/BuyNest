@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BuyNest - Video Finds</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f7f7f7;
+            color: #222;
+            padding-bottom: 80px;
+        }
+
+        /* ================= HEADER ================= */
+
+        .header {
+            height: 70px;
+            background: white;
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 5%;
+            gap: 25px;
+
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ff4b6e;
+            white-space: nowrap;
+        }
+
+        /* SEARCH */
+
+        .search-box {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 42px;
+
+            border: 1px solid #ddd;
+            border-radius: 25px;
+
+            padding: 0 45px 0 18px;
+
+            outline: none;
+
+            font-size: 14px;
+        }
+
+        .search-box input:focus {
+            border-color: #ff4b6e;
+        }
+
+        .search-icon {
+            position: absolute;
+
+            right: 17px;
+            top: 11px;
+
+            font-size: 18px;
+        }
+
+        /* HEADER ICONS */
+
+        .header-icons {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-icons a {
+            text-decoration: none;
+            color: #333;
+            font-size: 22px;
+        }
+
+        .header-icons a:hover {
+            color: #ff4b6e;
+        }
+
+
+        /* ================= PAGE TITLE ================= */
+
+        .page-header {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 35px auto 25px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #777;
+            font-size: 15px;
+        }
+
+
+        /* ================= VIDEO GRID ================= */
+
+        .video-container {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 25px;
+        }
+
+
+        /* VIDEO CARD */
+
+        .video-card {
+            background: white;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 18px rgba(0, 0, 0, 0.08);
+
+            transition: 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+
+
+        /* VIDEO */
+
+        .video-box {
+            width: 100%;
+
+            aspect-ratio: 16 / 9;
+
+            background: #000;
+        }
+
+        .video-box iframe {
+            width: 100%;
+            height: 100%;
+
+            border: 0;
+        }
+
+
+        /* VIDEO DETAILS */
+
+        .video-details {
+            padding: 18px;
+        }
+
+        .video-details h2 {
+            font-size: 19px;
+
+            margin-bottom: 8px;
+        }
+
+        .video-details p {
+            color: #777;
+
+            line-height: 1.5;
+
+            font-size: 14px;
+        }
+
+
+        /* TAG */
+
+        .tag {
+            display: inline-block;
+
+            margin-top: 12px;
+
+            background: #fff0f3;
+
+            color: #ff4b6e;
+
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= BOTTOM NAV ================= */
+
+        .bottom-nav {
+            position: fixed;
+
+            bottom: 0;
+            left: 0;
+
+            width: 100%;
+            height: 68px;
+
+            background: white;
+
+            border-top: 1px solid #ddd;
+
+            display: flex;
+
+            justify-content: space-around;
+
+            align-items: center;
+
+            z-index: 2000;
+        }
+
+        .bottom-nav a {
+            text-decoration: none;
+
+            color: #777;
+
+            text-align: center;
+
+            font-size: 12px;
+        }
+
+        .bottom-nav .icon {
+            font-size: 22px;
+
+            margin-bottom: 3px;
+        }
+
+        .bottom-nav .active {
+            color: #ff4b6e;
+
+            font-weight: bold;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 768px) {
+
+            .header {
+                height: 60px;
+
+                padding: 0 15px;
+
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .search-box {
+                max-width: none;
+            }
+
+            .search-box input {
+                height: 36px;
+
+                font-size: 12px;
+            }
+
+            .header-icons {
+                gap: 8px;
+            }
+
+            .header-icons a {
+                font-size: 18px;
+            }
+
+            .page-header {
+                width: 92%;
+
+                margin-top: 25px;
+            }
+
+            .page-header h1 {
+                font-size: 24px;
+            }
+
+            .video-container {
+                width: 92%;
+
+                grid-template-columns: 1fr;
+
+                gap: 18px;
+            }
+
+            .video-details h2 {
+                font-size: 17px;
+            }
+        }
+
+
+        @media (max-width: 480px) {
+
+            .header-icons a:nth-child(2),
+            .header-icons a:nth-child(3) {
+                display: none;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .bottom-nav {
+                height: 62px;
+            }
+
+            .bottom-nav a {
+                font-size: 10px;
+            }
+
+            .bottom-nav .icon {
+                font-size: 19px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="header">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+            BuyNest
+        </div>
+
+
+        <!-- SEARCH -->
+
+        <div class="search-box">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search dresses, fashion..."
+            >
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+        </div>
+
+
+        <!-- ICONS -->
+
+        <div class="header-icons">
+
+            <a href="profile.html" title="Profile">
+                👤
+            </a>
+
+            <a href="wishlist.html" title="Wishlist">
+                ❤️
+            </a>
+
+            <a href="notification.html" title="Notifications">
+                🔔
+            </a>
+
+            <a href="cart.html" title="Cart">
+                🛒
+            </a>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- ================= TITLE ================= -->
+
+    <section class="page-header">
+
+        <h1>
+            🎬 Video Finds
+        </h1>
+
+        <p>
+            Discover trending dresses, fashion hauls and styling ideas.
+        </p>
+
+    </section>
+
+
+
+    <!-- ================= VIDEO CONTAINER ================= -->
+
+    <section class="video-container" id="videoContainer">
+
+
+        <!-- ================================================= -->
+        <!-- VIDEO 1 - KURTI -->
+        <!-- ================================================= -->
+
+        <article
+            class="video-card"
+            data-search="kurti fashion kurtho dress collection"
+        >
+
+            <div class="video-box">
+
+                <iframe
+                    src="https://www.youtube.com/embed/_FgcQYk8e3k"
+                    title="Kurti Fashion Collection"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
+
+
+            <div class="video-details">
+
+                <h2>
+                    💖 Kurti Fashion Collection
+                </h2>
+
+                <p>
+                    Explore beautiful kurti designs,
+                    festive outfits and fashion styling ideas.
+                </p>
+
+                <span class="tag">
+                    KURTHO
+                </span>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- ================================================= -->
+        <!-- VIDEO 2 - SAREE -->
+        <!-- ================================================= -->
+
+        <article
+            class="video-card"
+            data-search="saree sari fashion traditional dress collection"
+        >
+
+            <div class="video-box">
+
+                <iframe
+                    src="https://www.youtube.com/embed/WtAI3897JNA"
+                    title="Saree Fashion Collection"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
+
+
+            <div class="video-details">
+
+                <h2>
+                    ✨ Trending Saree Collection
+                </h2>
+
+                <p>
+                    Discover saree designs,
+                    traditional looks and stylish outfit ideas.
+                </p>
+
+                <span class="tag">
+                    SAREE
+                </span>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- ================================================= -->
+        <!-- VIDEO 3 - LEHENGA -->
+        <!-- ================================================= -->
+
+        <article
+            class="video-card"
+            data-search="lehenga wedding bridal anarkali dress"
+        >
+
+            <div class="video-box">
+
+                <iframe
+                    src="https://www.youtube.com/embed/IryzyIE1KWw"
+                    title="Lehenga and Wedding Dress Collection"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
+
+
+            <div class="video-details">
+
+                <h2>
+                    👑 Lehenga & Wedding Collection
+                </h2>
+
+                <p>
+                    Designer wedding outfits,
+                    lehenga styles and beautiful traditional dresses.
+                </p>
+
+                <span class="tag">
+                    LEHENGA
+                </span>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- ================================================= -->
+        <!-- VIDEO 4 - GOWN -->
+        <!-- ================================================= -->
+
+        <article
+            class="video-card"
+            data-search="gown long gown dress fashion stitching"
+        >
+
+            <div class="video-box">
+
+                <iframe
+                    src="https://www.youtube.com/embed/GeU5YU_sR4c"
+                    title="Long Gown Fashion"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
+
+
+            <div class="video-details">
+
+                <h2>
+                    👗 Long Gown Fashion
+                </h2>
+
+                <p>
+                    Beautiful long gown designs
+                    and professional gown fashion ideas.
+                </p>
+
+                <span class="tag">
+                    GOWN
+                </span>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- ================================================= -->
+        <!-- VIDEO 5 - PARTY WEAR -->
+        <!-- ================================================= -->
+
+        <article
+            class="video-card"
+            data-search="party wear party dress birthday fashion dress"
+        >
+
+            <div class="video-box">
+
+                <iframe
+                    src="https://www.youtube.com/embed/dpqUUr2YHK0"
+                    title="Party Wear Dresses Collection"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+
+            </div>
+
+
+            <div class="video-details">
+
+                <h2>
+                    💃 Party Wear Dresses
+                </h2>
+
+                <p>
+                    Party dresses, birthday outfits
+                    and stylish fashion collection.
+                </p>
+
+                <span class="tag">
+                    PARTY WEAR
+                </span>
+
+            </div>
+
+        </article>
+
+
+    </section>
+
+
+
+    <!-- ================= BOTTOM NAVIGATION ================= -->
+
+    <nav class="bottom-nav">
+
+
+        <!-- HOME -->
+
+        <a href="index.html">
+
+            <div class="icon">
+                🏠
+            </div>
+
+            Home
+
+        </a>
+
+
+        <!-- CATEGORIES -->
+
+        <a href="categories.html">
+
+            <div class="icon">
+                📂
+            </div>
+
+            Categories
+
+        </a>
+
+
+        <!-- OFFERS -->
+
+        <a href="#">
+
+            <div class="icon">
+                🔥
+            </div>
+
+            Offers
+
+        </a>
+
+
+        <!-- VIDEO FINDS -->
+
+        <a
+            href="video-finds.html"
+            class="active"
+        >
+
+            <div class="icon">
+                🎬
+            </div>
+
+            Video Finds
+
+        </a>
+
+
+        <!-- ORDERS -->
+
+        <a href="orders.html">
+
+            <div class="icon">
+                📦
+            </div>
+
+            My Orders
+
+        </a>
+
+
+    </nav>
+
+
+
+    <!-- ================= SEARCH SCRIPT ================= -->
+
+    <script>
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const videoCards =
+            document.querySelectorAll(".video-card");
+
+
+        searchInput.addEventListener(
+            "input",
+            function () {
+
+                const searchText =
+                    this.value
+                        .toLowerCase()
+                        .trim();
+
+
+                videoCards.forEach(function (card) {
+
+                    const searchableText =
+                        card.dataset.search.toLowerCase();
+
+
+                    if (
+                        searchableText.includes(searchText)
+                    ) {
+
+                        card.style.display = "";
+
+                    } else {
+
+                        card.style.display = "none";
+
+                    }
+
+                });
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BuyNest - Wishlist</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f7f7f7;
+            color: #222;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .navbar {
+            height: 70px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 50px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo {
+            text-decoration: none;
+            color: #ff2f68;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-size: 15px;
+        }
+
+        .nav-links a:hover {
+            color: #ff2f68;
+        }
+
+        /* ================= PAGE ================= */
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            font-size: 28px;
+            margin-bottom: 30px;
+        }
+
+        /* ================= WISHLIST GRID ================= */
+
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .wishlist-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            transition: 0.2s;
+        }
+
+        .wishlist-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .remove-heart {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+
+            width: 38px;
+            height: 38px;
+
+            border: none;
+            border-radius: 50%;
+
+            background: white;
+
+            font-size: 22px;
+
+            cursor: pointer;
+
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .remove-heart:hover {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .product-name {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 17px;
+            font-weight: bold;
+            color: #ff2f68;
+            margin-bottom: 15px;
+        }
+
+        .view-button {
+            width: 100%;
+            padding: 11px;
+
+            border: none;
+            border-radius: 7px;
+
+            background: #ff2f68;
+            color: white;
+
+            cursor: pointer;
+
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .view-button:hover {
+            background: #e7255b;
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty-wishlist {
+            text-align: center;
+            padding: 100px 20px;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .empty-heart {
+            font-size: 65px;
+            margin-bottom: 20px;
+        }
+
+        .empty-wishlist h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-wishlist p {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        .shop-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #ff2f68;
+            color: white;
+            text-decoration: none;
+            border-radius: 7px;
+            font-weight: bold;
+        }
+
+        /* ================= MOBILE ================= */
+
+        @media (max-width: 900px) {
+
+            .wishlist-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+        }
+
+        @media (max-width: 650px) {
+
+            .navbar {
+                padding: 0 18px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .wishlist-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .product-image {
+                height: 220px;
+            }
+
+        }
+
+        @media (max-width: 400px) {
+
+            .wishlist-grid {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav class="navbar">
+
+        <a href="index.html" class="logo">
+            BuyNest
+        </a>
+
+        <div class="nav-links">
+
+            <a href="products.html">
+                Products
+            </a>
+
+            <a href="wishlist.html">
+                Wishlist ❤️
+            </a>
+
+            <a href="cart.html">
+                Cart
+            </a>
+
+            <a href="orders.html">
+                Orders
+            </a>
+
+            <a href="profile.html">
+                Profile
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= CONTENT ================= -->
+
+    <main class="container">
+
+        <h1 class="page-title">
+            My Wishlist ❤️
+        </h1>
+
+
+        <div
+            id="wishlistGrid"
+            class="wishlist-grid"
+        ></div>
+
+
+        <div
+            id="emptyWishlist"
+            class="empty-wishlist"
+            style="display:none;"
+        >
+
+            <div class="empty-heart">
+                ♡
+            </div>
+
+            <h2>
+                Your Wishlist is Empty
+            </h2>
+
+            <p>
+                Like your favourite dresses and products
+                to save them here.
+            </p>
+
+            <a
+                href="products.html"
+                class="shop-button"
+            >
+                Continue Shopping
+            </a>
+
+        </div>
+
+    </main>
+
+
+
+    <script>
+
+        /* ==========================================
+           GET WISHLIST
+        ========================================== */
+
+        function getWishlist() {
+
+            return JSON.parse(
+                localStorage.getItem("buynestWishlist")
+            ) || [];
+
+        }
+
+
+
+        /* ==========================================
+           SAVE WISHLIST
+        ========================================== */
+
+        function saveWishlist(wishlist) {
+
+            localStorage.setItem(
+                "buynestWishlist",
+                JSON.stringify(wishlist)
+            );
+
+        }
+
+
+
+        /* ==========================================
+           REMOVE PRODUCT
+        ========================================== */
+
+        function removeFromWishlist(id) {
+
+            let wishlist = getWishlist();
+
+            wishlist = wishlist.filter(
+                product => String(product.id) !== String(id)
+            );
+
+            saveWishlist(wishlist);
+
+            loadWishlist();
+
+        }
+
+
+
+        /* ==========================================
+           LOAD WISHLIST
+        ========================================== */
+
+        function loadWishlist() {
+
+            const wishlist = getWishlist();
+
+            const grid =
+                document.getElementById(
+                    "wishlistGrid"
+                );
+
+            const empty =
+                document.getElementById(
+                    "emptyWishlist"
+                );
+
+
+            grid.innerHTML = "";
+
+
+            if (wishlist.length === 0) {
+
+                empty.style.display = "block";
+
+                return;
+
+            }
+
+
+            empty.style.display = "none";
+
+
+            wishlist.forEach(product => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className =
+                    "wishlist-card";
+
+
+                card.innerHTML = `
+
+                    <button
+                        class="remove-heart"
+                        onclick="removeFromWishlist('${product.id}')"
+                        title="Remove from wishlist"
+                    >
+                        ❤️
+                    </button>
+
+                    <img
+                        src="${product.image}"
+                        class="product-image"
+                        alt="${product.name}"
+                        onerror="this.src='profile-default.png'"
+                    >
+
+                    <div class="product-info">
+
+                        <div class="product-name">
+                            ${product.name}
+                        </div>
+
+                        <div class="product-price">
+                            ₹${Number(product.price).toLocaleString("en-IN")}
+                        </div>
+
+                        <button
+                            class="view-button"
+                            onclick="viewProduct('${product.id}')"
+                        >
+                            View Product
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                grid.appendChild(card);
+
+            });
+
+        }
+
+
+
+        /* ==========================================
+           VIEW PRODUCT
+        ========================================== */
+
+        function viewProduct(id) {
+
+            window.location.href =
+                "product.html?id=" +
+                encodeURIComponent(id);
+
+        }
+
+
+
+        /* ==========================================
+           START
+        ========================================== */
+
+        loadWishlist();
+
+    </script>
+
+
+</body>
+
+</html>
