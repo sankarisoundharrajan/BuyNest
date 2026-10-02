@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BuyNest - Cart</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+
+body {
+    background: #f5f6fa;
+}
+
+nav {
+    background: white;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 7%;
+    box-shadow: 0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo {
+    color: #ff4f81;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+nav a {
+    text-decoration: none;
+    color: #333;
+    margin-left: 20px;
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: 40px auto;
+}
+
+h1 {
+    margin-bottom: 25px;
+}
+
+.cart-item {
+    background: white;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.cart-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.info {
+    flex: 1;
+}
+
+.info h3 {
+    margin-bottom: 8px;
+}
+
+.price {
+    color: #ff4f81;
+    font-weight: bold;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.controls button {
+    width: 32px;
+    height: 32px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.delete {
+    background: #ffdddd !important;
+    color: red;
+}
+
+.summary {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    margin-top: 25px;
+    text-align: right;
+}
+
+.total {
+    font-size: 25px;
+    font-weight: bold;
+    color: #ff4f81;
+    margin-bottom: 20px;
+}
+
+.checkout {
+    display: inline-block;
+    background: #ff4f81;
+    color: white;
+    text-decoration: none;
+    padding: 14px 30px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+.empty {
+    background: white;
+    padding: 50px;
+    text-align: center;
+    border-radius: 15px;
+}
+
+@media(max-width:600px) {
+
+    .cart-item {
+        flex-wrap: wrap;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<nav>
+
+    <div class="logo">BuyNest</div>
+
+    <div>
+        <a href="products.html">Products</a>
+        <a href="orders.html">📦 Orders</a>
+    </div>
+
+</nav>
+
+<div class="container">
+
+    <h1>🛒 My Cart</h1>
+
+    <div id="cart"></div>
+
+</div>
+
+<script>
+
+function getCart() {
+
+    return JSON.parse(
+        localStorage.getItem("buynestCart")
+    ) || [];
+
+}
+
+function saveCart(cart) {
+
+    localStorage.setItem(
+        "buynestCart",
+        JSON.stringify(cart)
+    );
+
+}
+
+function renderCart() {
+
+    const cart = getCart();
+
+    const container =
+        document.getElementById("cart");
+
+    if (cart.length === 0) {
+
+        container.innerHTML = `
+            <div class="empty">
+
+                <h2>Your cart is empty 🛒</h2>
+
+                <br>
+
+                <a href="products.html">
+                    Continue Shopping
+                </a>
+
+            </div>
+        `;
+
+        return;
+    }
+
+    let html = "";
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+
+        const itemTotal =
+            item.price * item.quantity;
+
+        total += itemTotal;
+
+        html += `
+
+            <div class="cart-item">
+
+                <img
+                    src="${item.image}"
+                    alt="${item.name}">
+
+                <div class="info">
+
+                    <h3>
+                        ${item.name}
+                    </h3>
+
+                    <div class="price">
+                        ₹${item.price.toLocaleString("en-IN")}
+                    </div>
+
+                </div>
+
+                <div class="controls">
+
+                    <button
+                        onclick="decrease(${index})">
+                        −
+                    </button>
+
+                    <span>
+                        ${item.quantity}
+                    </span>
+
+                    <button
+                        onclick="increase(${index})">
+                        +
+                    </button>
+
+                    <button
+                        class="delete"
+                        onclick="removeItem(${index})">
+                        🗑
+                    </button>
+
+                </div>
+
+            </div>
+        `;
+    });
+
+    html += `
+
+        <div class="summary">
+
+            <div class="total">
+                Total: ₹${total.toLocaleString("en-IN")}
+            </div>
+
+            <a
+                class="checkout"
+                href="checkout.html">
+
+                Proceed to Checkout →
+
+            </a>
+
+        </div>
+
+    `;
+
+    container.innerHTML = html;
+}
+
+function increase(index) {
+
+    const cart = getCart();
+
+    cart[index].quantity++;
+
+    saveCart(cart);
+
+    renderCart();
+
+}
+
+function decrease(index) {
+
+    const cart = getCart();
+
+    if (cart[index].quantity > 1) {
+
+        cart[index].quantity--;
+
+    }
+
+    saveCart(cart);
+
+    renderCart();
+
+}
+
+function removeItem(index) {
+
+    const cart = getCart();
+
+    cart.splice(index, 1);
+
+    saveCart(cart);
+
+    renderCart();
+
+}
+
+renderCart();
+
+</script>
+
+</body>
+</html>
