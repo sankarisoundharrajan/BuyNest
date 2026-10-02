@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BuyNest - Profile</title>
+
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        body {
+            background: #f7f7f8;
+            color: #222;
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            height: 70px;
+
+            background: #ffffff;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 50px;
+
+            border-bottom: 1px solid #eeeeee;
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 100;
+        }
+
+
+        .logo {
+
+            text-decoration: none;
+
+            color: #ff2f68;
+
+            font-size: 30px;
+
+            font-weight: 700;
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 32px;
+        }
+
+
+        .nav-links a {
+
+            text-decoration: none;
+
+            color: #27344d;
+
+            font-size: 16px;
+
+            transition: 0.2s;
+        }
+
+
+        .nav-links a:hover {
+
+            color: #ff2f68;
+        }
+
+
+        /* =========================
+           PROFILE PAGE
+        ========================= */
+
+        .profile-page {
+
+            max-width: 850px;
+
+            margin: 55px auto;
+
+            padding: 0 20px;
+        }
+
+
+        /* =========================
+           PROFILE PHOTO
+        ========================= */
+
+        .profile-top {
+
+            text-align: center;
+
+            margin-bottom: 35px;
+        }
+
+
+        .profile-image-wrapper {
+
+            width: 155px;
+
+            height: 155px;
+
+            border-radius: 50%;
+
+            overflow: hidden;
+
+            margin: auto;
+
+            background: #eeeeee;
+
+            border: 4px solid #ffffff;
+
+            box-shadow:
+                0 3px 15px rgba(0,0,0,0.12);
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .profile-image-wrapper:hover {
+
+            transform: scale(1.03);
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.15);
+        }
+
+
+        .profile-image {
+
+            width: 100%;
+
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        .edit-profile-btn {
+
+            margin-top: 20px;
+
+            padding: 11px 30px;
+
+            border-radius: 25px;
+
+            border: 2px solid #ff2f68;
+
+            background: white;
+
+            color: #ff2f68;
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+
+        .edit-profile-btn:hover {
+
+            background: #ff2f68;
+
+            color: white;
+        }
+
+
+
+        /* =========================
+           PROFILE DETAILS CARD
+        ========================= */
+
+        .profile-card {
+
+            background: white;
+
+            border-radius: 15px;
+
+            padding: 10px 32px;
+
+            box-shadow:
+                0 5px 25px rgba(0,0,0,0.06);
+        }
+
+
+        .profile-row {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 20px;
+
+            padding: 22px 5px;
+
+            border-bottom: 1px solid #eeeeee;
+        }
+
+
+        .profile-row:last-child {
+
+            border-bottom: none;
+        }
+
+
+        .profile-row-icon {
+
+            width: 42px;
+
+            height: 42px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 25px;
+
+            color: #65738b;
+
+            flex-shrink: 0;
+        }
+
+
+        .profile-info {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 6px;
+        }
+
+
+        .profile-label {
+
+            color: #8995a8;
+
+            font-size: 15px;
+        }
+
+
+        .profile-value {
+
+            color: #17243b;
+
+            font-size: 18px;
+
+            font-weight: 500;
+
+            word-break: break-word;
+        }
+
+
+        .basic-note {
+
+            text-align: center;
+
+            color: #8995a8;
+
+            font-size: 14px;
+
+            padding: 20px;
+        }
+
+
+
+        /* =========================
+           MODAL
+        ========================= */
+
+        .modal {
+
+            display: none;
+
+            position: fixed;
+
+            inset: 0;
+
+            background: rgba(0,0,0,0.55);
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 20px;
+
+            z-index: 1000;
+        }
+
+
+        .modal-box {
+
+            background: white;
+
+            width: 100%;
+
+            max-width: 550px;
+
+            max-height: 90vh;
+
+            overflow-y: auto;
+
+            border-radius: 18px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 15px 50px rgba(0,0,0,0.25);
+        }
+
+
+        .modal-header {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 25px;
+        }
+
+
+        .modal-header h2 {
+
+            font-size: 23px;
+
+            color: #222;
+        }
+
+
+        .close-btn {
+
+            width: 35px;
+
+            height: 35px;
+
+            border: none;
+
+            border-radius: 50%;
+
+            background: #f1f1f1;
+
+            cursor: pointer;
+
+            font-size: 21px;
+
+            color: #555;
+        }
+
+
+        .close-btn:hover {
+
+            background: #ff2f68;
+
+            color: white;
+        }
+
+
+
+        /* =========================
+           PHOTO PREVIEW
+        ========================= */
+
+        .preview-area {
+
+            text-align: center;
+
+            margin-bottom: 15px;
+        }
+
+
+        .preview-image {
+
+            width: 110px;
+
+            height: 110px;
+
+            border-radius: 50%;
+
+            object-fit: cover;
+
+            border: 3px solid #eeeeee;
+        }
+
+
+        .gallery-label {
+
+            display: block;
+
+            width: fit-content;
+
+            margin: 12px auto 25px;
+
+            padding: 10px 20px;
+
+            background: #ff2f68;
+
+            color: white;
+
+            border-radius: 7px;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+
+        .gallery-label:hover {
+
+            background: #e7255b;
+        }
+
+
+        #galleryInput {
+
+            display: none;
+        }
+
+
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+
+            margin-bottom: 18px;
+        }
+
+
+        .form-group label {
+
+            display: block;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #555;
+
+            margin-bottom: 7px;
+        }
+
+
+        .form-group input {
+
+            width: 100%;
+
+            padding: 12px 14px;
+
+            border: 1px solid #dddddd;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+
+        .form-group input:focus {
+
+            border-color: #ff2f68;
+        }
+
+
+
+        /* =========================
+           GENDER
+        ========================= */
+
+        .gender-title {
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            color: #555;
+
+            margin-bottom: 10px;
+        }
+
+
+        .gender-options {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .gender-btn {
+
+            border: 2px solid #dddddd;
+
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 12px 5px;
+
+            cursor: pointer;
+
+            color: #333;
+        }
+
+
+        .gender-btn:hover {
+
+            border-color: #ff2f68;
+        }
+
+
+        .gender-btn.active {
+
+            border-color: #ff2f68;
+
+            background: #fff1f5;
+        }
+
+
+        .gender-avatar {
+
+            width: 50px;
+
+            height: 50px;
+
+            border-radius: 50%;
+
+            background: #eeeeee;
+
+            margin: auto auto 8px;
+
+            overflow: hidden;
+        }
+
+
+        .gender-avatar svg {
+
+            width: 50px;
+
+            height: 50px;
+        }
+
+
+        .gender-text {
+
+            font-size: 13px;
+
+            font-weight: 600;
+        }
+
+
+
+        /* =========================
+           MODAL BUTTONS
+        ========================= */
+
+        .modal-buttons {
+
+            display: flex;
+
+            gap: 10px;
+
+            margin-top: 25px;
+        }
+
+
+        .cancel-btn,
+        .update-btn {
+
+            flex: 1;
+
+            padding: 13px;
+
+            border-radius: 8px;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+
+        .cancel-btn {
+
+            background: white;
+
+            border: 1px solid #dddddd;
+        }
+
+
+        .update-btn {
+
+            background: #ff2f68;
+
+            border: none;
+
+            color: white;
+
+            font-weight: 600;
+        }
+
+
+        .update-btn:hover {
+
+            background: #e7255b;
+        }
+
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                padding: 0 18px;
+            }
+
+
+            .nav-links {
+
+                display: none;
+            }
+
+
+            .profile-page {
+
+                margin-top: 35px;
+            }
+
+
+            .profile-image-wrapper {
+
+                width: 125px;
+
+                height: 125px;
+            }
+
+
+            .profile-card {
+
+                padding: 5px 18px;
+            }
+
+
+            .profile-row {
+
+                gap: 12px;
+            }
+
+
+            .profile-value {
+
+                font-size: 16px;
+            }
+
+
+            .modal-box {
+
+                padding: 22px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         NAVBAR
+    ========================= -->
+
+    <nav class="navbar">
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+            BuyNest
+        </a>
+
+
+        <div class="nav-links">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="products.html">
+                Products
+            </a>
+
+            <a href="wishlist.html">
+                Wishlist
+            </a>
+
+            <a href="cart.html">
+                Cart
+            </a>
+
+            <a href="orders.html">
+                Orders
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- =========================
+         PROFILE PAGE
+    ========================= -->
+
+    <main class="profile-page">
+
+
+        <!-- PROFILE PHOTO -->
+
+        <section class="profile-top">
+
+
+            <div
+                class="profile-image-wrapper"
+                onclick="openEditProfile()"
+                title="Edit Profile"
+            >
+
+                <img
+                    id="profileImage"
+                    class="profile-image"
+                    src="profile-default.png"
+                    alt="Profile"
+                >
+
+            </div>
+
+
+            <button
+                class="edit-profile-btn"
+                onclick="openEditProfile()"
+            >
+                ✎ Edit Profile
+            </button>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             PROFILE DETAILS
+        ========================= -->
+
+        <section class="profile-card">
+
+
+            <!-- NAME -->
+
+            <div class="profile-row">
+
+                <div class="profile-row-icon">
+                    👤
+                </div>
+
+                <div class="profile-info">
+
+                    <div class="profile-label">
+                        Name
+                    </div>
+
+                    <div
+                        class="profile-value"
+                        id="displayName"
+                    >
+                        Not added
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PHONE -->
+
+            <div class="profile-row">
+
+                <div class="profile-row-icon">
+                    📞
+                </div>
+
+                <div class="profile-info">
+
+                    <div class="profile-label">
+                        Phone Number
+                    </div>
+
+                    <div
+                        class="profile-value"
+                        id="displayPhone"
+                    >
+                        Not added
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <div class="profile-row">
+
+                <div class="profile-row-icon">
+                    ✉
+                </div>
+
+                <div class="profile-info">
+
+                    <div class="profile-label">
+                        Email ID
+                    </div>
+
+                    <div
+                        class="profile-value"
+                        id="displayEmail"
+                    >
+                        Not added
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- AGE -->
+
+            <div class="profile-row">
+
+                <div class="profile-row-icon">
+                    🎂
+                </div>
+
+                <div class="profile-info">
+
+                    <div class="profile-label">
+                        Age
+                    </div>
+
+                    <div
+                        class="profile-value"
+                        id="displayAge"
+                    >
+                        Not added
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- GENDER -->
+
+            <div class="profile-row">
+
+                <div class="profile-row-icon">
+                    ⚧
+                </div>
+
+                <div class="profile-info">
+
+                    <div class="profile-label">
+                        Gender
+                    </div>
+
+                    <div
+                        class="profile-value"
+                        id="displayGender"
+                    >
+                        Prefer not to say
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="basic-note">
+                Only basic details are shown
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =========================
+         EDIT PROFILE MODAL
+    ========================= -->
+
+    <div
+        class="modal"
+        id="profileModal"
+    >
+
+
+        <div class="modal-box">
+
+
+            <div class="modal-header">
+
+                <h2>
+                    Edit Profile
+                </h2>
+
+
+                <button
+                    class="close-btn"
+                    onclick="closeEditProfile()"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <!-- PHOTO PREVIEW -->
+
+            <div class="preview-area">
+
+                <img
+                    id="previewImage"
+                    class="preview-image"
+                    src="profile-default.png"
+                    alt="Profile Preview"
+                >
+
+            </div>
+
+
+
+            <!-- GALLERY -->
+
+            <label
+                for="galleryInput"
+                class="gallery-label"
+            >
+                📷 Add from Gallery
+            </label>
+
+
+            <input
+                type="file"
+                id="galleryInput"
+                accept="image/*"
+            >
+
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label>
+                    Name
+                </label>
+
+                <input
+                    type="text"
+                    id="nameInput"
+                    placeholder="Enter your name"
+                >
+
+            </div>
+
+
+
+            <!-- PHONE -->
+
+            <div class="form-group">
+
+                <label>
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phoneInput"
+                    placeholder="Enter phone number"
+                >
+
+            </div>
+
+
+
+            <!-- EMAIL -->
+
+            <div class="form-group">
+
+                <label>
+                    Email ID
+                </label>
+
+                <input
+                    type="email"
+                    id="emailInput"
+                    placeholder="Enter email address"
+                >
+
+            </div>
+
+
+
+            <!-- AGE -->
+
+            <div class="form-group">
+
+                <label>
+                    Age
+                </label>
+
+                <input
+                    type="number"
+                    id="ageInput"
+                    min="1"
+                    max="120"
+                    placeholder="Enter age"
+                >
+
+            </div>
+
+
+
+            <!-- GENDER -->
+
+            <div class="gender-title">
+
+                Gender
+
+            </div>
+
+
+            <div class="gender-options">
+
+
+                <!-- MALE -->
+
+                <button
+                    type="button"
+                    class="gender-btn"
+                    id="maleBtn"
+                    onclick="selectGender('Male')"
+                >
+
+                    <div class="gender-avatar">
+
+                        <svg viewBox="0 0 100 100">
+
+                            <circle
+                                cx="50"
+                                cy="30"
+                                r="18"
+                                fill="#aaa"
+                            />
+
+                            <path
+                                d="
+                                M18 92
+                                C20 65 32 52 50 52
+                                C68 52 80 65 82 92
+                                Z
+                                "
+                                fill="#aaa"
+                            />
+
+                        </svg>
+
+                    </div>
+
+                    <div class="gender-text">
+                        Male
+                    </div>
+
+                </button>
+
+
+
+                <!-- FEMALE -->
+
+                <button
+                    type="button"
+                    class="gender-btn"
+                    id="femaleBtn"
+                    onclick="selectGender('Female')"
+                >
+
+                    <div class="gender-avatar">
+
+                        <svg viewBox="0 0 100 100">
+
+                            <circle
+                                cx="50"
+                                cy="30"
+                                r="18"
+                                fill="#aaa"
+                            />
+
+                            <path
+                                d="
+                                M18 92
+                                C20 65 32 52 50 52
+                                C68 52 80 65 82 92
+                                Z
+                                "
+                                fill="#aaa"
+                            />
+
+                        </svg>
+
+                    </div>
+
+                    <div class="gender-text">
+                        Female
+                    </div>
+
+                </button>
+
+
+
+                <!-- THIRD GENDER -->
+
+                <button
+                    type="button"
+                    class="gender-btn"
+                    id="thirdBtn"
+                    onclick="selectGender('Third Gender')"
+                >
+
+                    <div class="gender-avatar">
+
+                        <svg viewBox="0 0 100 100">
+
+                            <circle
+                                cx="50"
+                                cy="30"
+                                r="18"
+                                fill="#aaa"
+                            />
+
+                            <path
+                                d="
+                                M18 92
+                                C20 65 32 52 50 52
+                                C68 52 80 65 82 92
+                                Z
+                                "
+                                fill="#aaa"
+                            />
+
+                        </svg>
+
+                    </div>
+
+                    <div class="gender-text">
+                        Third Gender
+                    </div>
+
+                </button>
+
+            </div>
+
+
+
+            <!-- BUTTONS -->
+
+            <div class="modal-buttons">
+
+                <button
+                    class="cancel-btn"
+                    onclick="closeEditProfile()"
+                >
+                    Cancel
+                </button>
+
+
+                <button
+                    class="update-btn"
+                    onclick="updateProfile()"
+                >
+                    Update Profile
+                </button>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+
+        let selectedGender =
+            "Prefer not to say";
+
+
+        let selectedPhoto =
+            null;
+
+
+
+        /* =========================
+           GET USER
+        ========================= */
+
+        function getUser() {
+
+            return JSON.parse(
+                localStorage.getItem("buynestUser")
+            ) || {};
+
+        }
+
+
+
+        /* =========================
+           LOAD PROFILE
+        ========================= */
+
+        function loadProfile() {
+
+            const user = getUser();
+
+
+            document.getElementById(
+                "displayName"
+            ).textContent =
+                user.name || "Not added";
+
+
+            document.getElementById(
+                "displayPhone"
+            ).textContent =
+                user.phone || "Not added";
+
+
+            document.getElementById(
+                "displayEmail"
+            ).textContent =
+                user.email || "Not added";
+
+
+            document.getElementById(
+                "displayAge"
+            ).textContent =
+                user.age || "Not added";
+
+
+            document.getElementById(
+                "displayGender"
+            ).textContent =
+                user.gender ||
+                "Prefer not to say";
+
+
+            const photo =
+                user.profilePhoto ||
+                "profile-default.png";
+
+
+            document.getElementById(
+                "profileImage"
+            ).src = photo;
+
+
+            selectedGender =
+                user.gender ||
+                "Prefer not to say";
+
+
+            selectedPhoto =
+                user.profilePhoto ||
+                null;
+
+        }
+
+
+
+        /* =========================
+           OPEN EDIT PROFILE
+        ========================= */
+
+        function openEditProfile() {
+
+            const user = getUser();
+
+
+            document.getElementById(
+                "nameInput"
+            ).value =
+                user.name || "";
+
+
+            document.getElementById(
+                "phoneInput"
+            ).value =
+                user.phone || "";
+
+
+            document.getElementById(
+                "emailInput"
+            ).value =
+                user.email || "";
+
+
+            document.getElementById(
+                "ageInput"
+            ).value =
+                user.age || "";
+
+
+            selectedGender =
+                user.gender ||
+                "Prefer not to say";
+
+
+            selectedPhoto =
+                user.profilePhoto ||
+                null;
+
+
+            document.getElementById(
+                "previewImage"
+            ).src =
+                user.profilePhoto ||
+                "profile-default.png";
+
+
+            document.getElementById(
+                "profileModal"
+            ).style.display =
+                "flex";
+
+
+            updateGenderButtons();
+
+        }
+
+
+
+        /* =========================
+           CLOSE MODAL
+        ========================= */
+
+        function closeEditProfile() {
+
+            document.getElementById(
+                "profileModal"
+            ).style.display =
+                "none";
+
+        }
+
+
+
+        /* =========================
+           GALLERY PHOTO
+        ========================= */
+
+        document
+            .getElementById("galleryInput")
+            .addEventListener(
+                "change",
+                function(event) {
+
+
+                    const file =
+                        event.target.files[0];
+
+
+                    if (!file) {
+                        return;
+                    }
+
+
+                    if (
+                        !file.type.startsWith(
+                            "image/"
+                        )
+                    ) {
+
+                        alert(
+                            "Please select an image."
+                        );
+
+                        return;
+                    }
+
+
+                    const reader =
+                        new FileReader();
+
+
+                    reader.onload =
+                        function(e) {
+
+                            selectedPhoto =
+                                e.target.result;
+
+
+                            /*
+                            Update preview
+                            immediately
+                            */
+
+                            document.getElementById(
+                                "previewImage"
+                            ).src =
+                                selectedPhoto;
+
+
+                            /*
+                            Update main profile
+                            immediately
+                            */
+
+                            document.getElementById(
+                                "profileImage"
+                            ).src =
+                                selectedPhoto;
+
+                        };
+
+
+                    reader.readAsDataURL(file);
+
+                }
+            );
+
+
+
+        /* =========================
+           SELECT GENDER
+        ========================= */
+
+        function selectGender(gender) {
+
+            selectedGender =
+                gender;
+
+
+            updateGenderButtons();
+
+        }
+
+
+
+        /* =========================
+           GENDER BUTTON UI
+        ========================= */
+
+        function updateGenderButtons() {
+
+
+            document
+                .getElementById("maleBtn")
+                .classList.remove("active");
+
+
+            document
+                .getElementById("femaleBtn")
+                .classList.remove("active");
+
+
+            document
+                .getElementById("thirdBtn")
+                .classList.remove("active");
+
+
+            if (
+                selectedGender === "Male"
+            ) {
+
+                document
+                    .getElementById("maleBtn")
+                    .classList.add("active");
+
+            }
+
+
+            else if (
+                selectedGender === "Female"
+            ) {
+
+                document
+                    .getElementById("femaleBtn")
+                    .classList.add("active");
+
+            }
+
+
+            else if (
+                selectedGender === "Third Gender"
+            ) {
+
+                document
+                    .getElementById("thirdBtn")
+                    .classList.add("active");
+
+            }
+
+        }
+
+
+
+        /* =========================
+           UPDATE PROFILE
+        ========================= */
+
+        function updateProfile() {
+
+
+            let user = getUser();
+
+
+            const name =
+                document
+                    .getElementById("nameInput")
+                    .value
+                    .trim();
+
+
+            const phone =
+                document
+                    .getElementById("phoneInput")
+                    .value
+                    .trim();
+
+
+            const email =
+                document
+                    .getElementById("emailInput")
+                    .value
+                    .trim();
+
+
+            const age =
+                document
+                    .getElementById("ageInput")
+                    .value
+                    .trim();
+
+
+
+            if (!name) {
+
+                alert(
+                    "Please enter your name."
+                );
+
+                return;
+            }
+
+
+            if (!email) {
+
+                alert(
+                    "Please enter your email."
+                );
+
+                return;
+            }
+
+
+
+            /*
+            Save profile information
+            */
+
+            user.name =
+                name;
+
+
+            user.phone =
+                phone;
+
+
+            user.email =
+                email;
+
+
+            user.age =
+                age;
+
+
+            user.gender =
+                selectedGender;
+
+
+
+            /*
+            Save profile photo
+            */
+
+            if (selectedPhoto) {
+
+                user.profilePhoto =
+                    selectedPhoto;
+
+            }
+
+
+
+            /*
+            Save everything
+            */
+
+            localStorage.setItem(
+                "buynestUser",
+                JSON.stringify(user)
+            );
+
+
+
+            /*
+            Update page immediately
+            */
+
+            loadProfile();
+
+
+
+            /*
+            Close modal
+            */
+
+            closeEditProfile();
+
+
+
+            alert(
+                "Profile updated successfully!"
+            );
+
+        }
+
+
+
+        /* =========================
+           CLOSE ON OUTSIDE CLICK
+        ========================= */
+
+        document
+            .getElementById("profileModal")
+            .addEventListener(
+                "click",
+                function(event) {
+
+                    if (
+                        event.target === this
+                    ) {
+
+                        closeEditProfile();
+
+                    }
+
+                }
+            );
+
+
+
+        /* =========================
+           START
+        ========================= */
+
+        loadProfile();
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BuyNest - Categories</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f6f7fb;
+            color: #222;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            height: 70px;
+            background: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 7%;
+
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #ff4f81;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 22px;
+            font-weight: 600;
+        }
+
+        nav a:hover {
+            color: #ff4f81;
+        }
+
+
+        /* ================= HERO ================= */
+
+        .hero {
+            width: 90%;
+            max-width: 1200px;
+
+            margin: 40px auto;
+
+            background: linear-gradient(
+                135deg,
+                #fff0f5,
+                #ffe4ec
+            );
+
+            padding: 55px 30px;
+
+            border-radius: 20px;
+
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            color: #666;
+            font-size: 17px;
+        }
+
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .section-title p {
+            color: #777;
+        }
+
+
+        /* ================= CATEGORY GRID ================= */
+
+        .categories {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 25px;
+        }
+
+
+        /* ================= CATEGORY CARD ================= */
+
+        .category-card {
+            background: white;
+
+            border-radius: 18px;
+
+            overflow: hidden;
+
+            box-shadow:
+                0 5px 20px rgba(0,0,0,0.08);
+
+            cursor: pointer;
+
+            transition: 0.3s;
+
+            text-align: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-8px);
+
+            box-shadow:
+                0 12px 30px rgba(0,0,0,0.15);
+        }
+
+
+        /* CATEGORY IMAGE */
+
+        .category-card img {
+            width: 100%;
+
+            height: 240px;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+
+        /* CATEGORY CONTENT */
+
+        .category-content {
+            padding: 18px;
+        }
+
+        .category-content h3 {
+            font-size: 21px;
+
+            margin-bottom: 8px;
+        }
+
+        .category-content p {
+            color: #777;
+
+            font-size: 14px;
+
+            margin-bottom: 16px;
+
+            min-height: 35px;
+        }
+
+
+        /* SHOP BUTTON */
+
+        .shop-btn {
+            display: inline-block;
+
+            background: #ff4f81;
+
+            color: white;
+
+            padding: 10px 20px;
+
+            border-radius: 8px;
+
+            text-decoration: none;
+
+            font-weight: bold;
+        }
+
+        .shop-btn:hover {
+            background: #e83e70;
+        }
+
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #222;
+
+            color: white;
+
+            text-align: center;
+
+            padding: 25px;
+
+            margin-top: 60px;
+        }
+
+        footer span {
+            color: #ff4f81;
+        }
+
+
+        /* ================= TABLET ================= */
+
+        @media(max-width: 900px) {
+
+            .categories {
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 600px) {
+
+            nav {
+                height: auto;
+
+                min-height: 70px;
+
+                padding: 12px 4%;
+
+                flex-direction: column;
+
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+            nav div:last-child {
+                display: flex;
+
+                flex-wrap: wrap;
+
+                justify-content: center;
+
+                gap: 8px;
+            }
+
+            nav a {
+                margin-left: 5px;
+
+                font-size: 12px;
+            }
+
+            .hero {
+                margin-top: 25px;
+
+                padding: 40px 20px;
+            }
+
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            .hero p {
+                font-size: 14px;
+            }
+
+            .categories {
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 12px;
+            }
+
+            .category-card img {
+                height: 180px;
+            }
+
+            .category-content {
+                padding: 12px 8px;
+            }
+
+            .category-content h3 {
+                font-size: 17px;
+            }
+
+            .category-content p {
+                font-size: 12px;
+
+                min-height: 32px;
+            }
+
+            .shop-btn {
+                padding: 8px 12px;
+
+                font-size: 12px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+====================================================== -->
+
+<nav>
+
+    <div class="logo">
+        BuyNest
+    </div>
+
+    <div>
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="categories.html">
+            Categories
+        </a>
+
+        <a href="products.html">
+            Products
+        </a>
+
+        <a href="cart.html">
+            🛒 Cart
+        </a>
+
+        <a href="orders.html">
+            📦 Orders
+        </a>
+
+    </div>
+
+</nav>
+
+
+<!-- =====================================================
+     HERO
+====================================================== -->
+
+<section class="hero">
+
+    <h1>
+        Shop By Category 🛍️
+    </h1>
+
+    <p>
+        Explore our collections and discover products you'll love.
+    </p>
+
+</section>
+
+
+<!-- =====================================================
+     CATEGORY SECTION
+====================================================== -->
+
+<div class="container">
+
+    <div class="section-title">
+
+        <h2>
+            Browse Categories
+        </h2>
+
+        <p>
+            Choose a category to start shopping
+        </p>
+
+    </div>
+
+
+    <div class="categories">
+
+
+        <!-- =================================================
+             1. SAREE
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Saree')">
+
+            <img
+                src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=700&q=85"
+                alt="Saree">
+
+            <div class="category-content">
+
+                <h3>
+                    👗 Saree
+                </h3>
+
+                <p>
+                    Traditional and designer sarees
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             2. KURTHI
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Kurthi')">
+
+            <img
+                src="https://plus.unsplash.com/premium_photo-1682097935697-2ed1efce421a?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8a3VydGhpfGVufDB8fDB8fHww"
+                alt="Kurthi">
+
+            <div class="category-content">
+
+                <h3>
+                    🌸 Kurthi
+                </h3>
+
+                <p>
+                    Stylish everyday ethnic wear
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             3. PANTS
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Pants')">
+
+            <img
+                src="https://img2.exportersindia.com/product_images/bc-full/dir_136/4072655/mens-trousers-1477549656-2511894.jpeg"
+                alt="Pants">
+
+            <div class="category-content">
+
+                <h3>
+                    👖 Pants
+                </h3>
+
+                <p>
+                    Comfortable men's pants and trousers
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             4. INNERWEAR
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Innerwear')">
+
+            <img
+                src="https://images.unsplash.com/photo-1656587132121-aaccc57589cf?w=600&auto=format&fit=crop&q=60"
+                alt="Innerwear">
+
+            <div class="category-content">
+
+                <h3>
+                    🩲 Innerwear
+                </h3>
+
+                <p>
+                    Comfortable everyday innerwear
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             5. T-SHIRTS
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('T-Shirts')">
+
+            <img
+                src="https://images.unsplash.com/photo-1581655353564-df123a1eb820?w=600&auto=format&fit=crop&q=60"
+                alt="T-Shirts">
+
+            <div class="category-content">
+
+                <h3>
+                    👕 T-Shirts
+                </h3>
+
+                <p>
+                    Casual and trendy T-shirts
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             6. SHIRTS
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Shirts')">
+
+            <img
+                src="https://plus.unsplash.com/premium_photo-1725075088969-73798c9b422c?w=600&auto=format&fit=crop&q=60"
+                alt="Shirts">
+
+            <div class="category-content">
+
+                <h3>
+                    👔 Shirts
+                </h3>
+
+                <p>
+                    Formal and casual men's shirts
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             7. LEHENGA
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Lehenga')">
+
+            <img
+                src="https://www.ethnicvouge.in/cdn/shop/collections/IMG-8216.jpg?v=1744804000"
+                alt="Lehenga">
+
+            <div class="category-content">
+
+                <h3>
+                    💃 Lehenga
+                </h3>
+
+                <p>
+                    Designer and bridal lehengas
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             8. VESTI & SHIRT
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Vesti & Shirt')">
+
+            <img
+                src="https://assets.myntassets.com/h_200%2Cw_200%2Cc_fill%2Cg_auto/h_1440%2Cq_100%2Cw_1080/v1/assets/images/22330328/2023/3/14/4b82eef4-2690-476e-86c2-b49f3b7fafa31678766975860ClothingSet1.jpg"
+                alt="Vesti and Shirt">
+
+            <div class="category-content">
+
+                <h3>
+                    🤍 Vesti &amp; Shirt
+                </h3>
+
+                <p>
+                    Traditional South Indian men's wear
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             9. GOWN
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Gown')">
+
+            <img
+                src="https://cdn.sareeka.com/image/cache/data2021/blue-net-designer-gown-195573-1000x1375.jpg"
+                alt="Gown">
+
+            <div class="category-content">
+
+                <h3>
+                    👗 Gown
+                </h3>
+
+                <p>
+                    Elegant party and evening gowns
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             10. SALWAR
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Salwar')">
+
+            <img
+                src="https://mangaldeep.co.in/cdn/shop/files/mustard-yellow-embroidered-straight-salwar-suit-with-matching-dupatta-1233461_1024x1024.jpg?v=1753582028"
+                alt="Salwar">
+
+            <div class="category-content">
+
+                <h3>
+                    🌺 Salwar
+                </h3>
+
+                <p>
+                    Beautiful salwar suit collections
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             11. JEANS
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Jeans')">
+
+            <img
+                src="https://plus.unsplash.com/premium_photo-1674828601362-afb73c907ebe?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8amVhbnN8ZW58MHx8MHx8fDA%3D"
+                alt="Jeans">
+
+            <div class="category-content">
+
+                <h3>
+                    👖 Jeans
+                </h3>
+
+                <p>
+                    Classic and trendy denim jeans
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             12. KIDS WEAR
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Kids Wear')">
+
+            <img
+                src="https://valuezone.online/images/categories/kid-apparel.jpg"
+                alt="Kids Wear">
+
+            <div class="category-content">
+
+                <h3>
+                    🧒 Kids Wear
+                </h3>
+
+                <p>
+                    Cute and comfortable kids fashion
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             13. JACKET
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Jacket')">
+
+            <img
+                src="https://redtape.com/cdn/shop/products/1-800x800_0e3877ec-4d59-4786-b04a-e4d26f6dee35.jpg?v=1754295909&width=416"
+                alt="Jacket">
+
+            <div class="category-content">
+
+                <h3>
+                    🧥 Jacket
+                </h3>
+
+                <p>
+                    Stylish jackets for every season
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             14. SHORTS
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Shorts')">
+
+            <img
+                src="https://plus.unsplash.com/premium_photo-1666265087913-9326638decfd?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8c2hvcnRzfGVufDB8fDB8fHww"
+                alt="Shorts">
+
+            <div class="category-content">
+
+                <h3>
+                    🩳 Shorts
+                </h3>
+
+                <p>
+                    Casual and comfortable shorts
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             15. TOPS
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Tops')">
+
+            <img
+                src="https://araysamarket.com/10344-small_default/lote-paca-surtido-de-ropa-nueva-mujer-mayoreo-30-pzs--moda.jpg"
+                alt="Tops">
+
+            <div class="category-content">
+
+                <h3>
+                    👚 Tops
+                </h3>
+
+                <p>
+                    Trendy women's tops
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             16. HOODIES
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Hoodies')">
+
+            <img
+                src="https://camov.cl/cdn/shop/collections/Imagen_Diapo._Desktop_3.jpg?crop=region&crop_height=1024&crop_left=256&crop_top=0&crop_width=1536&v=1758037013&width=2048"
+                alt="Hoodies">
+
+            <div class="category-content">
+
+                <h3>
+                    🧥 Hoodies
+                </h3>
+
+                <p>
+                    Comfortable casual hoodies
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             17. NIGHT WEAR
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Night Wear')">
+
+            <img
+                src="https://midnightangelsbypc.com/cdn/shop/products/BLACKFS1.png?v=1649150212"
+                alt="Night Wear">
+
+            <div class="category-content">
+
+                <h3>
+                    🌙 Night Wear
+                </h3>
+
+                <p>
+                    Soft and comfortable nightwear
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             18. ETHNIC WEAR
+        ================================================== -->
+
+        <div
+            class="category-card"
+            onclick="openCategory('Ethnic Wear')">
+
+            <img
+                src="https://stylesindia.com/cdn/shop/collections/Collection-banner-WC.jpg?v=1769056206"
+                alt="Ethnic Wear">
+
+            <div class="category-content">
+
+                <h3>
+                    ✨ Ethnic Wear
+                </h3>
+
+                <p>
+                    Traditional and stylish ethnic fashion
+                </p>
+
+                <span class="shop-btn">
+                    Shop Now →
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+<footer>
+
+    <p>
+        © 2026
+        <span>BuyNest</span>.
+        All Rights Reserved.
+    </p>
+
+</footer>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+====================================================== -->
+
+<script>
+
+function openCategory(category) {
+
+    window.location.href =
+        "products.html?category=" +
+        encodeURIComponent(category);
+
+}
+
+</script>
+
+
+</body>
+
+</html>

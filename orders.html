@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>BuyNest - My Orders</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+
+        body {
+            background: #f5f6fa;
+            color: #222;
+            padding-bottom: 40px;
+        }
+
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            height: 70px;
+
+            background: white;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            padding: 0 7%;
+
+            box-shadow:
+                0 2px 10px rgba(0,0,0,.08);
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+        }
+
+
+        .logo {
+            color: #ff4f81;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+
+        nav a {
+            text-decoration: none;
+
+            color: #333;
+
+            margin-left: 20px;
+
+            font-size: 15px;
+        }
+
+
+        nav a:hover {
+            color: #ff4f81;
+        }
+
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 90%;
+
+            max-width: 1100px;
+
+            margin: 40px auto;
+        }
+
+
+        h1 {
+            margin-bottom: 25px;
+
+            font-size: 30px;
+        }
+
+
+        /* ================= LIVE UPDATE ================= */
+
+        .live-status {
+            display: none;
+
+            background: #e8fff1;
+
+            color: #168a4a;
+
+            border: 1px solid #b8efd0;
+
+            padding: 12px 15px;
+
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+
+        .live-status.show {
+            display: block;
+        }
+
+
+        /* ================= ORDER ================= */
+
+        .order {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 15px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,.06);
+        }
+
+
+        .order-top {
+            display: flex;
+
+            justify-content: space-between;
+
+            border-bottom: 1px solid #eee;
+
+            padding-bottom: 15px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .order-id {
+            font-weight: bold;
+
+            font-size: 15px;
+        }
+
+
+        .status {
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* ================= STATUS COLORS ================= */
+
+        .status-processing {
+            background: #fff3cd;
+
+            color: #856404;
+        }
+
+
+        .status-shipped {
+            background: #dbeafe;
+
+            color: #1d4ed8;
+        }
+
+
+        .status-out-for-delivery {
+            background: #ede9fe;
+
+            color: #6d28d9;
+        }
+
+
+        .status-delivered {
+            background: #dcfce7;
+
+            color: #15803d;
+        }
+
+
+        .status-cancelled {
+            background: #fee2e2;
+
+            color: #b91c1c;
+        }
+
+
+        .status-default {
+            background: #eee;
+
+            color: #555;
+        }
+
+
+        /* ================= PRODUCT ================= */
+
+        .product {
+            display: flex;
+
+            gap: 20px;
+
+            align-items: center;
+        }
+
+
+        .product img {
+            width: 100px;
+
+            height: 100px;
+
+            object-fit: cover;
+
+            border-radius: 10px;
+
+            background: #f5f5f5;
+        }
+
+
+        .product-info {
+            flex: 1;
+        }
+
+
+        .product-info h3 {
+            margin-bottom: 8px;
+
+            font-size: 18px;
+        }
+
+
+        .quantity {
+            color: #666;
+
+            margin-bottom: 8px;
+
+            font-size: 14px;
+        }
+
+
+        .price {
+            color: #ff4f81;
+
+            font-weight: bold;
+
+            font-size: 18px;
+        }
+
+
+        .date {
+            color: #888;
+
+            font-size: 13px;
+
+            margin-top: 10px;
+        }
+
+
+        /* ================= EMPTY ================= */
+
+        .empty {
+            background: white;
+
+            padding: 60px 30px;
+
+            text-align: center;
+
+            border-radius: 15px;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,.05);
+        }
+
+
+        .empty-icon {
+            font-size: 55px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .empty h2 {
+            margin-bottom: 10px;
+        }
+
+
+        .empty p {
+            color: #777;
+
+            margin-bottom: 20px;
+        }
+
+
+        .shop-btn {
+            display: inline-block;
+
+            text-decoration: none;
+
+            background: #ff4f81;
+
+            color: white;
+
+            padding: 12px 22px;
+
+            border-radius: 25px;
+
+            font-weight: bold;
+        }
+
+
+        .shop-btn:hover {
+            background: #e83f70;
+        }
+
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            background: white;
+
+            padding: 40px;
+
+            text-align: center;
+
+            border-radius: 15px;
+
+            color: #777;
+        }
+
+
+        .spinner {
+            width: 35px;
+
+            height: 35px;
+
+            border: 4px solid #eee;
+
+            border-top: 4px solid #ff4f81;
+
+            border-radius: 50%;
+
+            animation: spin 1s linear infinite;
+
+            margin: 0 auto 15px;
+        }
+
+
+        @keyframes spin {
+
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+
+        }
+
+
+        /* ================= ERROR ================= */
+
+        .error {
+            color: #b91c1c;
+
+            background: #ffeaea;
+
+            padding: 20px;
+
+            border-radius: 10px;
+
+            line-height: 1.6;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width: 600px) {
+
+            nav {
+                padding: 0 5%;
+
+                height: 60px;
+            }
+
+
+            .logo {
+                font-size: 23px;
+            }
+
+
+            nav a {
+                margin-left: 10px;
+
+                font-size: 13px;
+            }
+
+
+            .container {
+                width: 92%;
+
+                margin: 25px auto;
+            }
+
+
+            h1 {
+                font-size: 25px;
+            }
+
+
+            .order {
+                padding: 15px;
+            }
+
+
+            .order-top {
+                flex-direction: column;
+
+                gap: 12px;
+            }
+
+
+            .product {
+                align-items: flex-start;
+
+                gap: 12px;
+            }
+
+
+            .product img {
+                width: 80px;
+
+                height: 80px;
+            }
+
+
+            .product-info h3 {
+                font-size: 15px;
+            }
+
+
+            .price {
+                font-size: 16px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav>
+
+        <div class="logo">
+            BuyNest
+        </div>
+
+
+        <div>
+
+            <a href="products.html">
+                Products
+            </a>
+
+
+            <a href="cart.html">
+                🛒 Cart
+            </a>
+
+        </div>
+
+    </nav>
+
+
+
+    <!-- ================= MAIN ================= -->
+
+    <div class="container">
+
+
+        <h1>
+            📦 My Orders
+        </h1>
+
+
+        <!-- LIVE UPDATE MESSAGE -->
+
+        <div
+            id="liveStatus"
+            class="live-status"
+        >
+            🔄 Order status updated!
+        </div>
+
+
+        <!-- ORDERS -->
+
+        <div id="orders">
+
+            <div class="loading">
+
+                <div class="spinner"></div>
+
+                Loading your orders...
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================= SOCKET.IO ================= -->
+
+    <script src="/socket.io/socket.io.js"></script>
+
+
+    <script>
+
+
+        /* =====================================================
+           GET LOGGED-IN USER
+        ===================================================== */
+
+        const user =
+            JSON.parse(
+                localStorage.getItem("buynestUser")
+            );
+
+
+        const ordersContainer =
+            document.getElementById("orders");
+
+
+        const liveStatus =
+            document.getElementById("liveStatus");
+
+
+
+        /* =====================================================
+           STATUS CLASS
+        ===================================================== */
+
+        function getStatusClass(status) {
+
+            const value =
+                String(status || "")
+                    .toLowerCase()
+                    .trim();
+
+
+            if (value === "processing") {
+
+                return "status-processing";
+
+            }
+
+
+            if (value === "shipped") {
+
+                return "status-shipped";
+
+            }
+
+
+            if (
+                value === "out for delivery" ||
+                value === "out-for-delivery"
+            ) {
+
+                return "status-out-for-delivery";
+
+            }
+
+
+            if (value === "delivered") {
+
+                return "status-delivered";
+
+            }
+
+
+            if (
+                value === "cancelled" ||
+                value === "canceled"
+            ) {
+
+                return "status-cancelled";
+
+            }
+
+
+            return "status-default";
+
+        }
+
+
+
+        /* =====================================================
+           ESCAPE HTML
+        ===================================================== */
+
+        function escapeHTML(value) {
+
+            if (value === null ||
+                value === undefined) {
+
+                return "";
+
+            }
+
+
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+
+        }
+
+
+
+        /* =====================================================
+           LOAD ORDERS FROM MYSQL
+        ===================================================== */
+
+        async function loadOrders(showLoading = true) {
+
+
+            if (
+                !user ||
+                !user.email
+            ) {
+
+                ordersContainer.innerHTML = `
+
+                    <div class="empty">
+
+                        <div class="empty-icon">
+                            🔐
+                        </div>
+
+                        <h2>
+                            Login Required
+                        </h2>
+
+                        <p>
+                            Please login to view your orders.
+                        </p>
+
+                        <a
+                            href="login.html"
+                            class="shop-btn"
+                        >
+                            Login
+                        </a>
+
+                    </div>
+
+                `;
+
+                return;
+
+            }
+
+
+
+            if (showLoading) {
+
+                ordersContainer.innerHTML = `
+
+                    <div class="loading">
+
+                        <div class="spinner"></div>
+
+                        Loading your orders...
+
+                    </div>
+
+                `;
+
+            }
+
+
+
+            try {
+
+
+                const response =
+                    await fetch(
+                        "/api/orders/" +
+                        encodeURIComponent(user.email)
+                    );
+
+
+                const data =
+                    await response.json();
+
+
+
+                if (
+                    !response.ok ||
+                    !data.success
+                ) {
+
+                    throw new Error(
+                        data.message ||
+                        "Failed to load orders"
+                    );
+
+                }
+
+
+
+                /* =============================================
+                   NO ORDERS
+                ============================================= */
+
+                if (
+                    !data.orders ||
+                    data.orders.length === 0
+                ) {
+
+                    ordersContainer.innerHTML = `
+
+                        <div class="empty">
+
+                            <div class="empty-icon">
+                                📦
+                            </div>
+
+                            <h2>
+                                No Orders Yet
+                            </h2>
+
+                            <p>
+                                You haven't placed any orders yet.
+                            </p>
+
+                            <a
+                                href="products.html"
+                                class="shop-btn"
+                            >
+                                Start Shopping
+                            </a>
+
+                        </div>
+
+                    `;
+
+                    return;
+
+                }
+
+
+
+                /* =============================================
+                   RENDER ORDERS
+                ============================================= */
+
+                ordersContainer.innerHTML = "";
+
+
+                data.orders.forEach(order => {
+
+
+                    const date =
+                        order.created_at
+                            ? new Date(
+                                order.created_at
+                            ).toLocaleString("en-IN")
+                            : "";
+
+
+                    const status =
+                        order.status ||
+                        "Processing";
+
+
+                    const statusClass =
+                        getStatusClass(status);
+
+
+                    const image =
+                        order.product_image ||
+                        "profile-default.png";
+
+
+
+                    ordersContainer.innerHTML += `
+
+                        <div
+                            class="order"
+                            data-order-id="${escapeHTML(order.order_id)}"
+                        >
+
+
+                            <div class="order-top">
+
+
+                                <div>
+
+                                    <div class="order-id">
+
+                                        Order ID:
+                                        ${escapeHTML(order.order_id)}
+
+                                    </div>
+
+
+                                    <div class="date">
+
+                                        ${escapeHTML(date)}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div
+                                    class="status ${statusClass}"
+                                >
+
+                                    ${escapeHTML(status)}
+
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="product">
+
+
+                                <img
+                                    src="${escapeHTML(image)}"
+                                    alt="${escapeHTML(order.product_name)}"
+                                    onerror="this.src='profile-default.png'"
+                                >
+
+
+                                <div class="product-info">
+
+
+                                    <h3>
+
+                                        ${escapeHTML(
+                                            order.product_name
+                                        )}
+
+                                    </h3>
+
+
+                                    <div class="quantity">
+
+                                        Quantity:
+                                        ${escapeHTML(order.quantity)}
+
+                                    </div>
+
+
+                                    <div class="price">
+
+                                        ₹${Number(
+                                            order.total_amount || 0
+                                        ).toLocaleString("en-IN")}
+
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    `;
+
+                });
+
+
+            } catch (error) {
+
+
+                console.error(
+                    "Order loading error:",
+                    error
+                );
+
+
+                ordersContainer.innerHTML = `
+
+                    <div class="error">
+
+                        ❌ Unable to load orders.
+
+                        <br><br>
+
+                        Make sure your Node.js server
+                        and MySQL are running.
+
+                        <br><br>
+
+                        <button
+                            onclick="loadOrders()"
+                            style="
+                                padding:10px 18px;
+                                border:0;
+                                border-radius:20px;
+                                background:#ff4f81;
+                                color:white;
+                                cursor:pointer;
+                            "
+                        >
+                            Try Again
+                        </button>
+
+                    </div>
+
+                `;
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           SOCKET.IO REAL-TIME CONNECTION
+        ===================================================== */
+
+        let socket = null;
+
+
+        function connectRealtime() {
+
+
+            if (
+                typeof io === "undefined"
+            ) {
+
+                console.log(
+                    "Socket.IO not available"
+                );
+
+                return;
+
+            }
+
+
+            socket = io();
+
+
+            socket.on(
+                "connect",
+                function () {
+
+                    console.log(
+                        "✅ Connected to BuyNest realtime server"
+                    );
+
+
+                    /*
+                        Join the logged-in user's room.
+                        Your server already has:
+
+                        joinUser(email)
+                    */
+
+                    if (
+                        user &&
+                        user.email
+                    ) {
+
+                        socket.emit(
+                            "joinUser",
+                            user.email
+                        );
+
+                    }
+
+                }
+            );
+
+
+
+            /* =============================================
+               NEW ORDER / STATUS UPDATE
+            ============================================= */
+
+            socket.on(
+                "newNotification",
+                function (notification) {
+
+                    console.log(
+                        "🔔 Realtime notification:",
+                        notification
+                    );
+
+
+                    /*
+                        If this notification belongs
+                        to an order, reload orders
+                        from MySQL.
+                    */
+
+                    if (
+                        notification &&
+                        (
+                            notification.type === "order" ||
+                            notification.type === "status"
+                        )
+                    ) {
+
+                        loadOrders(false);
+
+
+                        showLiveMessage(
+                            notification.message ||
+                            "Your order has been updated."
+                        );
+
+                    }
+
+                }
+            );
+
+
+            socket.on(
+                "disconnect",
+                function () {
+
+                    console.log(
+                        "Realtime connection disconnected"
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        /* =====================================================
+           LIVE UPDATE MESSAGE
+        ===================================================== */
+
+        function showLiveMessage(message) {
+
+
+            liveStatus.textContent =
+                "🔄 " + message;
+
+
+            liveStatus.classList.add(
+                "show"
+            );
+
+
+            setTimeout(
+                function () {
+
+                    liveStatus.classList.remove(
+                        "show"
+                    );
+
+                },
+                5000
+            );
+
+        }
+
+
+
+        /* =====================================================
+           INITIAL LOAD
+        ===================================================== */
+
+        loadOrders();
+
+
+        connectRealtime();
+
+
+
+        /* =====================================================
+           BACKUP AUTO REFRESH
+           
+           If Socket.IO disconnects or the user comes
+           back after being away, fetch latest data.
+        ===================================================== */
+
+        setInterval(
+            function () {
+
+                loadOrders(false);
+
+            },
+            30000
+        );
+
+
+
+        /* =====================================================
+           WHEN USER RETURNS TO TAB
+        ===================================================== */
+
+        document.addEventListener(
+            "visibilitychange",
+            function () {
+
+                if (
+                    document.visibilityState === "visible"
+                ) {
+
+                    loadOrders(false);
+
+                }
+
+            }
+        );
+
+
+        window.addEventListener(
+            "focus",
+            function () {
+
+                loadOrders(false);
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
